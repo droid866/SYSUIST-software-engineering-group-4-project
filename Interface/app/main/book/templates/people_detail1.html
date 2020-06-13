@@ -1,0 +1,74 @@
+{%- extends "base.html" -%}
+{%- from "bootstrap/pagination.html" import render_pagination -%}
+{%- import "bootstrap/wtf.html" as wtf -%}
+{%- block mycontent -%}
+    <div class="well well-lg">
+        <h1 class="page-header animated fadeInLeft">{{ title }}</h1>
+        <div class="primary-info">
+            <ul class="list-group">
+                <li class="list-group-item">性别: {{ people.gender }}</li>
+                {%- if people.id_type -%}
+                    <li class="list-group-item">证件类型: {{ people.id_type }}</li>
+                {%- endif -%}
+                {%- if people.id_number -%}
+                    <li class="list-group-item">证件号码: {{ people.id_number }}</li>
+                {%- endif -%}
+                {%- if people.phone_number -%}
+                    <li class="list-group-item">手机号码: {{ people.phone_number }}</li>
+                {%- endif -%}
+                {%- if people.address -%}
+                    <li class="list-group-item">地址: {{ people.address }}</li>
+                {%- endif -%}
+            </ul>
+        </div>
+        <br>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#summary"
+                           aria-expanded="true" aria-controls="collapseOne">
+                            内容简介
+                        </a>
+                    </h4>
+                </div>
+                <div id="summary" class="panel-collapse collapse in" role="tabpanel"
+                     aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        无
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="catalog">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            目录
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                     aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        无
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="btn-group">
+            {%- if current_user.can(Permission.UPDATE_BOOK_INFORMATION) -%}
+                <a type="button" class="btn btn-warning" href="{{ url_for('book.resident_edit',resident_id=people.id) }}">编辑人员信息
+                </a>
+            {%- endif -%}
+
+            {%- if current_user.can(Permission.DELETE_BOOK) -%}
+                <a type="button" class="btn btn-danger"
+                    href="{{ url_for('book.delete',book_id=people.id) }}">删除记录</a>
+            {%- endif -%}
+        </div>
+    </div>
+          
+{%- endblock -%}
