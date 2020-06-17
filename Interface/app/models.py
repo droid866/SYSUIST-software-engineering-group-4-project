@@ -313,6 +313,12 @@ class Residents(db.Model):
     phone_number = db.Column(db.String(128))
     address = db.Column(db.String(32), nullable=True)
     avatar = db.Column(db.String(128))
+    #face_id = db.Column(db.String(64), db.ForeignKey('face.id_number'))
+
+    face = db.relationship('Face',
+                           backref=db.backref('resident', lazy='joined'),
+                           lazy='dynamic',
+                           cascade='all, delete-orphan')
 
     temperatures = db.relationship('Temperature',
                            backref=db.backref('resident', lazy='joined'),
@@ -326,7 +332,7 @@ class Residents(db.Model):
         self.gender = gender
         self.phone_number = phone_number
         self.address = address
-    
+
     def avatar_url(self, _external=False):
         if self.avatar:
             avatar_json = json.loads(self.avatar)
@@ -338,6 +344,7 @@ class Residents(db.Model):
         else:
             return url_for('static', filename='img/avatar.png', _external=_external)
 
+
 class Visitors(db.Model):
     __tablename__ = 'visitors'
     id = db.Column(db.Integer, primary_key=True)
@@ -348,6 +355,11 @@ class Visitors(db.Model):
     phone_number = db.Column(db.String(128))
     address = db.Column(db.String(32), nullable=True)
     avatar = db.Column(db.String(128))
+
+    face = db.relationship('Face',
+                            backref=db.backref('visitor', lazy='joined'),
+                            lazy='dynamic',
+                            cascade='all, delete-orphan')
 
     temperatures = db.relationship('Temperature',
                            backref=db.backref('visitor', lazy='joined'),
@@ -393,3 +405,38 @@ class Temperature(db.Model):
             self.resident = resident
         else:
             self.visitor = visitor
+
+class Face(db.Model):
+    __tablename__ = 'face'
+    id = db.Column(db.Integer, primary_key=True)
+    id_type = db.Column(db.String(64))
+    id_number = db.Column(db.String(64), unique=True)
+    isresident = db.Column(db.Boolean)
+    avatar = db.Column(db.String(128))
+    resident_id = db.Column(db.Integer, db.ForeignKey('residents.id'))
+    visitors_id = db.Column(db.Integer, db.ForeignKey('visitors.id'))
+
+    # residents = db.relationship('Residents',
+    #                        backref=db.backref('face', lazy='joined'),
+    #                        lazy='dynamic',
+    #                        cascade='all, delete-orphan')
+    def __init__(self, isresident, id_type, id_number, avatar=None, resident=None, visitor=None):
+        self.avatar = avatar
+        self.id_type = id_type
+        self.id_number = id_number
+        self.isresident = isresident
+        if self.isresident:
+            self.resident = resident
+        else:
+            self.visitor = visitor
+            
+    def avatar_url(self, _external=False):
+        if self.avatar:
+            avatar_json = json.loads(self.avatar)
+            if avatar_json['use_out_url']:
+                return avatar_json['url']
+            else:
+                return url_for('_uploads.uploaded_file', setname=avatars.name, filename=avatar_json['url'],
+                               _external=_external)
+        else:
+            return url_for('static', filename='img/avatar.png', _external=_external)

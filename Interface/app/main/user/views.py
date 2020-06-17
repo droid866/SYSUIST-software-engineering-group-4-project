@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, abort, g
 from flask_login import login_required, current_user
-from app.models import User, Log, Permission
+from app.models import User, Log, Permission, Residents, Visitors, Face
 from .forms import EditProfileForm, AvatarEditForm, AvatarUploadForm
 from app import db, avatars
 from . import user
@@ -58,28 +58,43 @@ def edit(user_id):
         abort(403)
 
 
-@user.route('/<int:user_id>/avatar_edit/', methods=['GET', 'POST'])
+@user.route('/<int:user_id>/<isresident>/avatar_edit/', methods=['GET', 'POST'])
 @login_required
-def avatar(user_id):
+def avatar(user_id, isresident):
     if current_user.id == user_id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION):
-        the_user = User.query.get_or_404(user_id)
+        if(isresident == 'True'):
+            the_user = Residents.query.get_or_404(user_id)
+            forder = "resident" + str(user_id)
+            face = Face.query.filter(Face.resident_id==user_id).all()[0]
+        elif(isresident == 'User'):
+            the_user = User.query.get_or_404(user_id)
+            forder = str(user_id)
+            face = the_user
+        else:
+            the_user = Visitors.query.get_or_404(user_id)
+            forder = "visitor" + str(user_id)
+            face = Face.query.filter(Face.resident_id==user_id).all()[0]
+
         avatar_edit_form = AvatarEditForm()
         avatar_upload_form = AvatarUploadForm()
         if avatar_upload_form.validate_on_submit():
             if 'avatar' in request.files:
-                forder = str(user_id)
                 avatar_name = avatars.save(avatar_upload_form.avatar.data, folder=forder)
-                the_user.avatar = json.dumps({"use_out_url": False, "url": avatar_name})
-                db.session.add(the_user)
+                face.avatar = json.dumps({"use_out_url": False, "url": avatar_name})
+                db.session.add(face)
                 db.session.commit()
                 flash(u'头像更新成功!', 'success')
-                return redirect(url_for('user.detail', user_id=user_id))
+                if(isresident != 'User'):
+                    return redirect(url_for('book.people_detail', people_id=user_id, isresident=isresident))
+                else:
+                    return redirect(url_for('user.detail', user_id=user_id))
         if avatar_edit_form.validate_on_submit():
             the_user.avatar = json.dumps({"use_out_url": True, "url": avatar_edit_form.avatar_url.data})
             db.session.add(the_user)
             db.session.commit()
             return redirect(url_for('user.detail', user_id=user_id))
-        return render_template('avatar_edit.html', user=the_user, avatar_edit_form=avatar_edit_form,
+
+        return render_template('avatar_edit.html', user=the_user, face=face, avatar_edit_form=avatar_edit_form,
                                avatar_upload_form=avatar_upload_form, title=u"更换头像")
     else:
         abort(403)

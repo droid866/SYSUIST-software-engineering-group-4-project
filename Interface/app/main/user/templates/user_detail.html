@@ -6,7 +6,7 @@
             {%- if user.avatar_url() -%}
                 <div class="col-md-3 animated bounceIn">
                     {%- if current_user.id == user.id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION) -%}
-                        <a href="{{ url_for('user.avatar',user_id=user.id) }}" data-toggle="tooltip"
+                        <a href="{{ url_for('user.avatar',user_id=user.id,isresident='User') }}" data-toggle="tooltip"
                            data-placement="bottom" title="点击修改头像">
                             <div class="avatar avatar-large"
                                  style="background-image: url({{ user.avatar_url() }})"></div>

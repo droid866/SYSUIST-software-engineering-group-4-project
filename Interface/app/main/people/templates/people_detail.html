@@ -3,17 +3,17 @@
 {% block mycontent %}
     <div class="jumbotron">
         <div class="row">
-            {%- if people.avatar_url() -%}
+            {%- if face[0].avatar_url() -%}
                 <div class="col-md-3 animated bounceIn">
                     {%- if current_user.id == people.id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION) -%}
-                        <a href="{{ url_for('user.avatar',user_id=people.id) }}" data-toggle="tooltip"
+                        <a href="{{ url_for('user.avatar',user_id=people.id,isresident=isresident) }}" data-toggle="tooltip"
                            data-placement="bottom" title="点击修改头像">
                             <div class="avatar avatar-large"
-                                 style="background-image: url({{ people.avatar_url() }})"></div>
+                                 style="background-image: url({{ face[0].avatar_url() }})"></div>
                         </a>
                     {%- else -%}
                         <div class="avatar avatar-large"
-                             style="background-image: url({{ user.avatar_url() }})"></div>
+                             style="background-image: url({{ face[0].avatar_url() }})"></div>
                     {%- endif -%}
                 </div>
             {%- endif -%}

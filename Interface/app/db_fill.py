@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import User, Book, Log, Role, Residents, Visitors, Temperature
+from app.models import User, Book, Log, Role, Residents, Visitors, Temperature, Face
 from datetime import datetime, timedelta
 
 app_ctx = app.app_context()
@@ -54,16 +54,22 @@ logs = [Log(user1, book2), Log(user1, book3), Log(user1, book4), Log(user1, book
         Log(user2, book1), Log(user2, book3), Log(user2, book5),
         Log(user3, book2), Log(user3, book5)]
 
+
 resident1 = Residents(id_number='000000000000000000', id_type='身份证', address='鹏飞小区A栋301', 
                 gender='男', name='小明', phone_number='00000000000')
+face1 = Face(id_type='身份证', id_number='000000000000000000', resident=resident1, isresident=True)
 resident2 = Residents(id_number='000000000000000001', id_type='身份证', address='鹏飞小区A栋301', 
                 gender='男', name='小明爸爸', phone_number='00000000001')
+face2 = Face(id_type='身份证', id_number='000000000000000001', resident=resident2, isresident=True)
 resident3 = Residents(id_number='000000000000000002', id_type='身份证', address='鹏飞小区A栋301', 
                 gender='男', name='小明妈妈', phone_number='00000000002')
+face3 = Face(id_type='身份证', id_number='000000000000000002', resident=resident3, isresident=True)
 resident4 = Residents(id_number='000000000000000003', id_type='身份证', address='鹏飞小区A栋101', 
                 gender='男', name='Coco', phone_number='00000000003')
+face4 = Face(id_type='身份证', id_number='000000000000000003', resident=resident4, isresident=True)
 resident5 = Residents(id_number='000000000000000004', id_type='身份证', address='鹏飞小区A栋201', 
                 gender='男', name='艾艾', phone_number='00000000004')
+face5 = Face(id_type='身份证', id_number='000000000000000004', resident=resident5, isresident=True)
 
 visitor1 = Visitors(id_number='111111111111111111', id_type='身份证', address='鹏翔小区B栋103', 
                 gender='男', name='小华', phone_number='11111111111')
@@ -75,6 +81,12 @@ visitor4 = Visitors(id_number='111111111111111100', id_type='身份证', address
                 gender='男', name='甜甜', phone_number='11111111100')
 visitor5 = Visitors(id_number='111111111111111001', id_type='身份证', address='鹏翔小区B栋303', 
                 gender='男', name='妞妞', phone_number='11111111001')
+face6 = Face(id_type='身份证', id_number='111111111111111111', visitor=visitor1, isresident=False)
+face7 = Face(id_type='身份证', id_number='111111111111111110', visitor=visitor2, isresident=False)
+face8 = Face(id_type='身份证', id_number='111111111111111101', visitor=visitor3, isresident=False)
+face9 = Face(id_type='身份证', id_number='111111111111111100', visitor=visitor4, isresident=False)
+face10 = Face(id_type='身份证', id_number='111111111111111001', visitor=visitor5, isresident=False)
+
 #temperatures = [Temperature(resident=resident1, isresident=True, temperature=26.5, gate_number=1),
 #                Temperature(visitor=visitor1, isresident=False, temperature=26.5, gate_number=2)]
 temperatures1 = Temperature(resident=resident1, isresident=True, temperature=36.5, gate_number=1,
@@ -87,10 +99,12 @@ temperatures4 = Temperature(visitor=visitor2, isresident=False, temperature=36.5
         record_timestamp=datetime.now()+timedelta(hours=2))
 temperatures5 = Temperature(resident=resident3, isresident=True, temperature=37.5, gate_number=3,
         record_timestamp=datetime.now()+timedelta(hours=4))
+
 db.session.add_all([admin, user1, user2, user3, user4, book1, book2, book3, book4, book5, book6] + logs)
 db.session.add_all([resident1, resident2, resident3, resident4, resident5])
 db.session.add_all([visitor1, visitor2, visitor3, visitor4, visitor5])
 db.session.add_all([temperatures1, temperatures2, temperatures3, temperatures4, temperatures5])
+db.session.add_all([face1, face2, face3, face4, face5, face6, face7, face8, face9, face10])
 db.session.commit()
 
 app_ctx.pop()

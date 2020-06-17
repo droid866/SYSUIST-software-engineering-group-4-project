@@ -1,4 +1,4 @@
-from app.models import Book, Residents
+from app.models import Book, Residents, Face
 from flask_pagedown.fields import PageDownField
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField

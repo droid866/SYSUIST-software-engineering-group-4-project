@@ -3,12 +3,28 @@
 {% block mycontent %}
     <div class="jumbotron">
         <div class="row">
+            {%- if face.avatar_url() -%}
+                <div class="col-md-3 animated bounceIn">
+                    {%- if current_user.id == people.id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION) -%}
+                        <a href="{{ url_for('user.avatar',user_id=people.id,isresident=isresident) }}" data-toggle="tooltip"
+                           data-placement="bottom" title="点击修改头像">
+                            <div class="avatar avatar-large"
+                                 style="background-image: url({{ face.avatar_url() }})"></div>
+                        </a>
+                    {%- else -%}
+                        <div class="avatar avatar-large"
+                             style="background-image: url({{ face.avatar_url() }})"></div>
+                    {%- endif -%}
+                </div>
+            {%- endif -%}
+            <!--
             {% if people.avatar_url() %}
                 <div class="col-md-4 clearfix">
                     <div class="media-object avatar avatar-large"
-                         style="background-image: url({{ people.avatar_url() }})"></div>
+                         style="background-image: url({{ face.avatar_url() }})"></div>
                 </div>
             {% endif %}
+            -->
             <div class="col-md-8">
                 <h1 class="page-header">{{ people.name }}
                     <br>
