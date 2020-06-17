@@ -3,7 +3,7 @@ from app.models import User, Book, Comment, Log, Permission, Residents, Visitors
 from flask import render_template
 from flask_login import current_user
 from . import main
-from ..book.forms import SearchForm
+from ..people.forms import SearchForm
 
 
 @main.app_context_processor

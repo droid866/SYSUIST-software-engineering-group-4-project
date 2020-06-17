@@ -10,6 +10,6 @@ def load_user(id):
 from .index import main
 from .auth import auth
 from .user import user
-from .book import book
+from .people import book
 from .comment import comment
 from .log import log
