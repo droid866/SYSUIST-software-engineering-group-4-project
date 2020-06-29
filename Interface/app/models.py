@@ -303,6 +303,53 @@ class Tag(db.Model):
     def __repr__(self):
         return u'<Tag %s>' % self.name
 
+
+class People(db.Model):
+    __tablename__ = 'people'
+    id = db.Column(db.Integer, primary_key=True)
+    id_number = db.Column(db.String(64), unique=True)
+    id_type = db.Column(db.String(64))
+    name = db.Column(db.String(64))
+    gender = db.deferred(db.Column(db.String(128)))
+    phone_number = db.Column(db.String(128))
+    address = db.Column(db.String(32), nullable=True)
+    avatar = db.Column(db.String(128))
+    isresident = db.Column(db.Boolean)
+    #face_id = db.Column(db.String(64), db.ForeignKey('face.id_number'))
+
+    face = db.relationship('Face',
+                           backref=db.backref('people', lazy='joined'),
+                           lazy='dynamic',
+                           cascade='all, delete-orphan')
+
+    temperatures = db.relationship('Temperature',
+                           backref=db.backref('people', lazy='joined'),
+                           lazy='dynamic',
+                           cascade='all, delete-orphan')
+
+    def __init__(self, id_number, id_type, name, gender, phone_number, address, isresident):
+        self.id_number = id_number
+        self.id_type = id_type
+        self.name = name
+        self.gender = gender
+        self.phone_number = phone_number
+        self.address = address
+        self.isresident = isresident
+
+    def avatar_url(self, _external=False):
+        if self.avatar:
+            avatar_json = json.loads(self.avatar)
+            if avatar_json['use_out_url']:
+                return avatar_json['url']
+            else:
+                return url_for('_uploads.uploaded_file', setname=avatars.name, filename=avatar_json['url'],
+                               _external=_external)
+        else:
+            return url_for('static', filename='img/avatar.png', _external=_external)
+
+
+
+
 class Residents(db.Model):
     __tablename__ = 'residents'
     id = db.Column(db.Integer, primary_key=True)
@@ -395,6 +442,7 @@ class Temperature(db.Model):
     isresident = db.Column(db.Boolean)
     resident_id = db.Column(db.Integer, db.ForeignKey('residents.id'))
     visitors_id = db.Column(db.Integer, db.ForeignKey('visitors.id'))
+    people_id = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __init__(self, isresident, temperature, gate_number, resident=None, visitor=None, record_timestamp=datetime.now()):
         self.temperature = temperature
@@ -415,12 +463,13 @@ class Face(db.Model):
     avatar = db.Column(db.String(128))
     resident_id = db.Column(db.Integer, db.ForeignKey('residents.id'))
     visitors_id = db.Column(db.Integer, db.ForeignKey('visitors.id'))
+    people_id = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     # residents = db.relationship('Residents',
     #                        backref=db.backref('face', lazy='joined'),
     #                        lazy='dynamic',
     #                        cascade='all, delete-orphan')
-    def __init__(self, isresident, id_type, id_number, avatar=None, resident=None, visitor=None):
+    def __init__(self, isresident, id_type, id_number, avatar=None, resident=None, visitor=None, people=None):
         self.avatar = avatar
         self.id_type = id_type
         self.id_number = id_number
@@ -429,6 +478,7 @@ class Face(db.Model):
             self.resident = resident
         else:
             self.visitor = visitor
+        self.people = people
             
     def avatar_url(self, _external=False):
         if self.avatar:

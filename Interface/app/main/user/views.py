@@ -73,7 +73,7 @@ def avatar(user_id, isresident):
         else:
             the_user = Visitors.query.get_or_404(user_id)
             forder = "visitor" + str(user_id)
-            face = Face.query.filter(Face.resident_id==user_id).all()[0]
+            face = Face.query.filter(Face.visitors_id==user_id).all()[0]
 
         avatar_edit_form = AvatarEditForm()
         avatar_upload_form = AvatarUploadForm()
