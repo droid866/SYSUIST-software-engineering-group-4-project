@@ -438,10 +438,8 @@ class Temperature(db.Model):
         self.gate_number = gate_number
         self.isresident = isresident
         if self.isresident:
-            self.resident = resident
             self.id_number = resident.id_number
         else:
-            self.visitor = visitor
             self.id_number = visitor.id_number
 
 class Face(db.Model):
