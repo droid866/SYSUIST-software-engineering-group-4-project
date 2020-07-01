@@ -359,12 +359,6 @@ class Residents(db.Model):
     phone_number = db.Column(db.String(128))
     address = db.Column(db.String(32), nullable=True)
     avatar = db.Column(db.String(128))
-    #face_id = db.Column(db.String(64), db.ForeignKey('face.id_number'))
-
-    face = db.relationship('Face',
-                           backref=db.backref('resident', lazy='joined'),
-                           lazy='dynamic',
-                           cascade='all, delete-orphan')
 
 
     def __init__(self, id_number, id_type, name, gender, phone_number, address):
@@ -396,11 +390,6 @@ class Visitors(db.Model):
     phone_number = db.Column(db.String(128))
     address = db.Column(db.String(32), nullable=True)
     avatar = db.Column(db.String(128))
-
-    face = db.relationship('Face',
-                            backref=db.backref('visitor', lazy='joined'),
-                            lazy='dynamic',
-                            cascade='all, delete-orphan')
 
 
     def __init__(self, id_number, id_type, name, gender, phone_number, address):
@@ -442,25 +431,18 @@ class Temperature(db.Model):
         else:
             self.id_number = visitor.id_number
 
+
 class Face(db.Model):
     __tablename__ = 'face'
     id_type = db.Column(db.String(64))
     id_number = db.Column(db.String(64), primary_key=True)
     isresident = db.Column(db.Boolean)
     avatar = db.Column(db.String(128))
-    resident_id = db.Column(db.String(64), db.ForeignKey('residents.id_number'))
-    visitors_id = db.Column(db.String(64), db.ForeignKey('visitors.id_number'))
-    #people_id = db.Column(db.Integer, db.ForeignKey('people.id'))
 
-    def __init__(self, isresident, id_type, id_number, avatar=None, resident=None, visitor=None, people=None):
+    def __init__(self, id_type, id_number, avatar=None, people=None):
         self.avatar = avatar
         self.id_type = id_type
         self.id_number = id_number
-        self.isresident = isresident
-        if self.isresident:
-            self.resident = resident
-        else:
-            self.visitor = visitor
         self.people = people
             
     def avatar_url(self, _external=False):

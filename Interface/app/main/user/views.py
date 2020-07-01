@@ -65,7 +65,7 @@ def avatar(user_id, isresident):
         if(isresident == 'True'):
             the_user = Residents.query.get_or_404(user_id)
             forder = "resident" + str(user_id)
-            face = Face.query.filter(Face.resident_id==user_id).all()[0]
+            face = Face.query.filter(Face.id_number==user_id).all()[0]
         elif(isresident == 'User'):
             the_user = User.query.get_or_404(user_id)
             forder = str(user_id)
@@ -73,7 +73,7 @@ def avatar(user_id, isresident):
         else:
             the_user = Visitors.query.get_or_404(user_id)
             forder = "visitor" + str(user_id)
-            face = Face.query.filter(Face.visitors_id==user_id).all()[0]
+            face = Face.query.filter(Face.id_number==user_id).all()[0]
 
         avatar_edit_form = AvatarEditForm()
         avatar_upload_form = AvatarUploadForm()
