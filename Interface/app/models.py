@@ -452,10 +452,6 @@ class Face(db.Model):
     visitors_id = db.Column(db.String(64), db.ForeignKey('visitors.id_number'))
     #people_id = db.Column(db.Integer, db.ForeignKey('people.id'))
 
-    # residents = db.relationship('Residents',
-    #                        backref=db.backref('face', lazy='joined'),
-    #                        lazy='dynamic',
-    #                        cascade='all, delete-orphan')
     def __init__(self, isresident, id_type, id_number, avatar=None, resident=None, visitor=None, people=None):
         self.avatar = avatar
         self.id_type = id_type
