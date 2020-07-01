@@ -51,8 +51,17 @@ def index():
     page = request.args.get('page', 1, type=int)
     #pagination = Log.query.filter_by(returned=show).order_by(Log.borrow_timestamp.desc()).paginate(page, per_page=10)
     
-    pagination = Temperature.query.order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
-    
-    logs = pagination.items
-    
-    return render_template("logs_info.html", logs=logs, pagination=pagination, title=u"借阅信息")
+    query = db.session().query(Temperature, Residents)
+    query = query.join(Temperature, Temperature.id_number==Residents.id_number)
+    pagination = query.order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+
+    #pagination = Temperature.query.order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+    #pagination = data
+    logs0 = pagination.items
+
+    query = db.session().query(Temperature, Visitors)
+    query = query.join(Temperature, Temperature.id_number==Visitors.id_number)
+    pagination = query.order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+
+    logs1 = pagination.items
+    return render_template("logs_info.html", logs0=logs0, logs1=logs1, pagination=pagination, title=u"借阅信息")

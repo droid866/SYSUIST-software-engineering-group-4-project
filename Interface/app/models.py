@@ -366,10 +366,6 @@ class Residents(db.Model):
                            lazy='dynamic',
                            cascade='all, delete-orphan')
 
-    temperatures = db.relationship('Temperature',
-                           backref=db.backref('resident', lazy='joined'),
-                           lazy='dynamic',
-                           cascade='all, delete-orphan')
 
     def __init__(self, id_number, id_type, name, gender, phone_number, address):
         self.id_number = id_number
@@ -406,10 +402,6 @@ class Visitors(db.Model):
                             lazy='dynamic',
                             cascade='all, delete-orphan')
 
-    temperatures = db.relationship('Temperature',
-                           backref=db.backref('visitor', lazy='joined'),
-                           lazy='dynamic',
-                           cascade='all, delete-orphan')
 
     def __init__(self, id_number, id_type, name, gender, phone_number, address):
         self.id_number = id_number
@@ -433,13 +425,11 @@ class Visitors(db.Model):
 
 class Temperature(db.Model):
     __tablename__ = 'temperature'
-    id = db.Column(db.Integer, primary_key=True)
+    id_number = db.Column(db.String(64), primary_key=True)
     temperature = db.Column(db.Float)
     record_timestamp = db.Column(db.DateTime, default=datetime.now())
     gate_number = db.Column(db.Integer)
     isresident = db.Column(db.Boolean)
-    resident_id = db.Column(db.String(64), db.ForeignKey('residents.id_number'))
-    visitors_id = db.Column(db.String(64), db.ForeignKey('visitors.id_number'))
     #people_id = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __init__(self, isresident, temperature, gate_number, resident=None, visitor=None, record_timestamp=datetime.now()):
@@ -449,8 +439,10 @@ class Temperature(db.Model):
         self.isresident = isresident
         if self.isresident:
             self.resident = resident
+            self.id_number = resident.id_number
         else:
             self.visitor = visitor
+            self.id_number = visitor.id_number
 
 class Face(db.Model):
     __tablename__ = 'face'

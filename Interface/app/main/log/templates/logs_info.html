@@ -30,19 +30,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for log in logs %}
+                {% for log in logs0 %}
                     <tr class="animated fadeIn delay-{{ loop.index0 }}">
-                        {% if log.isresident == True %}
-                            <td><a href="{{ url_for('book.people_detail',people_id=log.resident.id_number,isresident=log.isresident) }}">{{ log.resident.name }}</a></td>
-                            <td class="hidden-xs">{{ log.resident.id_type }}</td>
-                            <td class="hidden-xs">{{ log.resident.id_number }}</td>
-                            <td class="hidden-xs">{{ log.temperature }}</td>
-                            <td class="hidden-xs">{{ log.record_timestamp.strftime('%d %B %Y - %H:%M:%S') }}</td>
-                            <td class="hidden-xs">{{ log.gate_number }}</td>
-                            <td class="hidden-xs">{{ log.resident.phone_number }}</td>
+                        {% if log[0].isresident == True %}
+                            <td><a href="{{ url_for('book.people_detail',people_id=log[1].id_number,isresident=log[0].isresident) }}">{{ log[1].name }}</a></td>
+                            <td class="hidden-xs">{{ log[1].id_type }}</td>
+                            <td class="hidden-xs">{{ log[1].id_number }}</td>
+                            <td class="hidden-xs">{{ log[0].temperature }}</td>
+                            <td class="hidden-xs">{{ log[0].record_timestamp.strftime('%d %B %Y - %H:%M:%S') }}</td>
+                            <td class="hidden-xs">{{ log[0].gate_number }}</td>
+                            <td class="hidden-xs">{{ log[1].phone_number }}</td>
                             {%- if current_user.is_authenticated -%}
                                 <td class="hidden-xs">
-                                    {% if log.temperature < 37.3 %}
+                                    {% if log[0].temperature < 37.3 %}
                                         <button class="btn btn-success btn-block" disabled>正常</button>
                                     {% else %}
                                         <button class="btn btn-danger btn-block" disabled>异常</button>
@@ -72,19 +72,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for log in logs %}
+                {% for log in logs1 %}
                     <tr class="animated fadeIn delay-{{ loop.index0 }}">
-                        {% if log.isresident == False %}
-                            <td><a href="{{ url_for('book.people_detail',people_id=log.visitor.id,isresident=log.isresident) }}"> {{ log.visitor.name }}</a></td>
-                            <td class="hidden-xs">{{ log.visitor.id_type }}</td>
-                            <td class="hidden-xs">{{ log.visitor.id_number }}</td>
-                            <td class="hidden-xs">{{ log.temperature }}</td>
-                            <td class="hidden-xs">{{ log.record_timestamp.strftime('%d %B %Y - %H:%M:%S') }}</td>
-                            <td class="hidden-xs">{{ log.gate_number }}</td>
-                            <td class="hidden-xs">{{ log.visitor.phone_number }}</td>
+                        {% if log[0].isresident == False %}
+                            <td><a href="{{ url_for('book.people_detail',people_id=log[1].id_number,isresident=log[0].isresident) }}"> {{ log[1].name }}</a></td>
+                            <td class="hidden-xs">{{ log[1].id_type }}</td>
+                            <td class="hidden-xs">{{ log[1].id_number }}</td>
+                            <td class="hidden-xs">{{ log[0].temperature }}</td>
+                            <td class="hidden-xs">{{ log[0].record_timestamp.strftime('%d %B %Y - %H:%M:%S') }}</td>
+                            <td class="hidden-xs">{{ log[0].gate_number }}</td>
+                            <td class="hidden-xs">{{ log[1].phone_number }}</td>
                             {%- if current_user.is_authenticated -%}
                                 <td class="hidden-xs">
-                                    {% if log.temperature < 37.3 %}
+                                    {% if log[0].temperature < 37.3 %}
                                         <button class="btn btn-success btn-block" disabled>正常</button>
                                     {% else %}
                                         <button class="btn btn-danger btn-block" disabled>异常</button>

@@ -50,11 +50,17 @@ def people_detail(people_id, isresident):
 
     if isresident == 'True':
         the_people = Residents.query.get_or_404(people_id)
-        pagination = Temperature.query.filter(Temperature.resident_id==people_id).order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+        pagination = Temperature.query.filter(Temperature.id_number==people_id).order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+        # query = db.session().query(Temperature, Residents)
+        # query = query.join(Temperature, Temperature.id_number==people_id)
+        # pagination = query.order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
         pagination2 = Face.query.filter(Face.resident_id==people_id).paginate(page, per_page=10)
     else:
         the_people = Visitors.query.get_or_404(people_id)
-        pagination = Temperature.query.filter(Temperature.visitors_id==people_id).order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+        # query = db.session().query(Temperature, Visitors)
+        # query = query.join(Temperature, Temperature.id_number==people_id)
+        # pagination = query.order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
+        pagination = Temperature.query.filter(Temperature.id_number==people_id).order_by(Temperature.record_timestamp.desc()).paginate(page, per_page=10)
         pagination2 = Face.query.filter(Face.visitors_id==people_id).paginate(page, per_page=10)
 
     logs = pagination.items
