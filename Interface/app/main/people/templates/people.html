@@ -46,7 +46,7 @@
                             <tbody>
                             {%- for resident in residents -%}
                                 <tr>
-                                    <td><a href="{{ url_for('book.people_detail',people_id=resident.id,isresident=True) }}">{{ resident.name }}</a></td>
+                                    <td><a href="{{ url_for('book.people_detail',people_id=resident.id_number,isresident=True) }}">{{ resident.name }}</a></td>
                                     <td class="hidden-xs">{{ resident.gender }}</td>
                                     <td class="hidden-xs">{{ resident.id_type }}</td>
                                     <td class="hidden-xs">{{ resident.id_number }}</td>
@@ -56,7 +56,7 @@
                                         <td>
                                             {%- if current_user.can(Permission.DELETE_BOOK) -%}
                                                 <a type="button" class="btn btn-danger"
-                                                    href="{{ url_for('book.people_delete',people_id=resident.id,isResident=True,next=request.full_path) }}">删除记录</a>
+                                                    href="{{ url_for('book.people_delete',people_id=resident.id_number,isResident=True,next=request.full_path) }}">删除记录</a>
                                             {%- endif -%}
                                         </td>
                                     {%- endif -%}
@@ -96,7 +96,7 @@
                             <tbody>
                             {%- for visitor in visitors -%}
                                 <tr>
-                                    <td><a href="{{ url_for('book.people_detail',people_id=visitor.id,isresident=False) }}">{{ visitor.name }}</a></td>
+                                    <td><a href="{{ url_for('book.people_detail',people_id=visitor.id_number,isresident=False) }}">{{ visitor.name }}</a></td>
                                     <td class="hidden-xs">{{ visitor.gender }}</td>
                                     <td class="hidden-xs">{{ visitor.id_type }}</td>
                                     <td class="hidden-xs">{{ visitor.id_number }}</td>
@@ -106,7 +106,7 @@
                                         <td>
                                             {%- if current_user.can(Permission.DELETE_BOOK) -%}
                                                 <a type="button" class="btn btn-danger"
-                                                    href="{{ url_for('book.people_delete',people_id=visitor.id,isResident=False,next=request.full_path) }}">删除记录</a>
+                                                    href="{{ url_for('book.people_delete',people_id=visitor.id_number,isResident=False,next=request.full_path) }}">删除记录</a>
                                             {%- endif -%}
                                         </td>
                                     {%- endif -%}

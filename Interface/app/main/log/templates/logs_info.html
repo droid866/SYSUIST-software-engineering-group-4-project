@@ -33,7 +33,7 @@
                 {% for log in logs %}
                     <tr class="animated fadeIn delay-{{ loop.index0 }}">
                         {% if log.isresident == True %}
-                            <td><a href="{{ url_for('book.people_detail',people_id=log.resident.id,isresident=log.isresident) }}">{{ log.resident.name }}</a></td>
+                            <td><a href="{{ url_for('book.people_detail',people_id=log.resident.id_number,isresident=log.isresident) }}">{{ log.resident.name }}</a></td>
                             <td class="hidden-xs">{{ log.resident.id_type }}</td>
                             <td class="hidden-xs">{{ log.resident.id_number }}</td>
                             <td class="hidden-xs">{{ log.temperature }}</td>

@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import User, Book, Log, Role, Residents, Visitors, Temperature, Face, People
+from app.models import User, Book, Log, Role, Residents, Visitors, Temperature, Face
 from datetime import datetime, timedelta
 
 app_ctx = app.app_context()
@@ -54,12 +54,12 @@ logs = [Log(user1, book2), Log(user1, book3), Log(user1, book4), Log(user1, book
         Log(user2, book1), Log(user2, book3), Log(user2, book5),
         Log(user3, book2), Log(user3, book5)]
 
-people1 = People(id_number='000000000000000100', id_type='身份证', address='鹏飞小区A栋301', 
-                gender='男', name='小明', phone_number='00000000000', isresident=True)
-facex = Face(id_type='身份证', id_number='000000000000000100', people=people1, isresident=True)
-people2 = People(id_number='111111111111111211', id_type='身份证', address='鹏翔小区B栋103', 
-                gender='男', name='小华', phone_number='11111111111', isresident=False)
-facey = Face(id_type='身份证', id_number='111111111111111211', people=people2   , isresident=False)
+# people1 = People(id_number='000000000000000100', id_type='身份证', address='鹏飞小区A栋301', 
+#                 gender='男', name='小明', phone_number='00000000000', isresident=True)
+# facex = Face(id_type='身份证', id_number='000000000000000100', people=people1, isresident=True)
+# people2 = People(id_number='111111111111111211', id_type='身份证', address='鹏翔小区B栋103', 
+#                 gender='男', name='小华', phone_number='11111111111', isresident=False)
+# facey = Face(id_type='身份证', id_number='111111111111111211', people=people2   , isresident=False)
 
 resident1 = Residents(id_number='000000000000000000', id_type='身份证', address='鹏飞小区A栋301', 
                 gender='男', name='小明', phone_number='00000000000')
@@ -110,8 +110,8 @@ db.session.add_all([admin, user1, user2, user3, user4, book1, book2, book3, book
 db.session.add_all([resident1, resident2, resident3, resident4, resident5])
 db.session.add_all([visitor1, visitor2, visitor3, visitor4, visitor5])
 db.session.add_all([temperatures1, temperatures2, temperatures3, temperatures4, temperatures5])
-db.session.add_all([face1, face2, face3, face4, face5, face6, face7, face8, face9, face10, facex, facey])
-db.session.add_all([people1, people2])
+db.session.add_all([face1, face2, face3, face4, face5, face6, face7, face8, face9, face10])
+# db.session.add_all([people1, people2])
 db.session.commit()
 
 app_ctx.pop()

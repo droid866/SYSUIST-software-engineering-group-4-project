@@ -44,7 +44,7 @@
         <tbody>
         {% for resident in residents %}
             <tr class="animated fadeInLeft delay-{{ loop.index0 }}">
-                <td class="hidden-xs"><a href="{{ url_for('book.people_detail',people_id=resident.id,isresident=True) }}">{{ resident.name }}</a></td>
+                <td class="hidden-xs"><a href="{{ url_for('book.people_detail',people_id=resident.id_number,isresident=True) }}">{{ resident.name }}</a></td>
                 <td class="hidden-xs">{{ resident.gender }}</td>
                 <td class="hidden-xs">{{ resident.id_type }}</td>
                 <td class="hidden-xs">{{ resident.id_number }}</td>

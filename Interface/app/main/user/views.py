@@ -58,7 +58,7 @@ def edit(user_id):
         abort(403)
 
 
-@user.route('/<int:user_id>/<isresident>/avatar_edit/', methods=['GET', 'POST'])
+@user.route('/<user_id>/<isresident>/avatar_edit/', methods=['GET', 'POST'])
 @login_required
 def avatar(user_id, isresident):
     if current_user.id == user_id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION):

@@ -6,7 +6,7 @@
             {%- if face[0].avatar_url() -%}
                 <div class="col-md-3 animated bounceIn">
                     {%- if current_user.id == people.id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION) -%}
-                        <a href="{{ url_for('user.avatar',user_id=people.id,isresident=isresident) }}" data-toggle="tooltip"
+                        <a href="{{ url_for('user.avatar',user_id=people.id_number,isresident=isresident) }}" data-toggle="tooltip"
                            data-placement="bottom" title="点击修改头像">
                             <div class="avatar avatar-large"
                                  style="background-image: url({{ face[0].avatar_url() }})"></div>
@@ -31,7 +31,7 @@
                 <p>手机号码: {{ people.phone_number }}</p>
                 <p>地址: {{ people.address }}</p>
                 {% if current_user.id==people.id or current_user.can(Permission.UPDATE_OTHERS_INFORMATION) %}
-                    <a class="btn btn-info" href="{{ url_for('book.people_edit',people_id=people.id,isresident=isresident) }}">编辑资料</a>
+                    <a class="btn btn-info" href="{{ url_for('book.people_edit',people_id=people.id_number,isresident=isresident) }}">编辑资料</a>
                 {% endif %}
                 <!--
                 {% if current_user.id==people.id %}
@@ -46,11 +46,11 @@
         <ul class="nav nav-tabs" role="tablist">
             {% if request.args.get('show',0)!='1' %}
                 <li role="presentation" class="active"><a href="#log" role="tab">进入小区记录</a></li>
-                <li role="presentation"><a href="{{ url_for('book.people_detail',people_id=people.id,isresident=isresident,show=1,_anchor='log') }}"
+                <li role="presentation"><a href="{{ url_for('book.people_detail',people_id=people.id_number,isresident=isresident,show=1,_anchor='log') }}"
                                            role="tab">体温异常记录</a>
                 </li>
             {% else %}
-                <li role="presentation"><a href="{{ url_for('book.people_detail',people_id=people.id,isresident=isresident,show=0,_anchor='log') }}"
+                <li role="presentation"><a href="{{ url_for('book.people_detail',people_id=people.id_number,isresident=isresident,show=0,_anchor='log') }}"
                                            role="tab">进入小区记录</a>
                 </li>
                 <li role="presentation" class="active"><a href="#log" role="tab">体温异常记录</a></li>

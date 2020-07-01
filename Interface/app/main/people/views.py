@@ -29,8 +29,8 @@ def people():
                 Visitors.phone_number.ilike(u"%%%s%%" % search_word)))
         search_form.search.data = search_word
     else:
-        the_residents = Residents.query.order_by(Residents.id.desc())
-        the_visitors = Visitors.query.order_by(Visitors.id.desc())
+        the_residents = Residents.query.order_by(Residents.id_number.desc())
+        the_visitors = Visitors.query.order_by(Visitors.id_number.desc())
 
     residents_pagination = the_residents.paginate(page, per_page=8)
     residents_result = residents_pagination.items
@@ -64,7 +64,7 @@ def people_detail(people_id, isresident):
         isresident=isresident, title=the_people.name)
 
 
-@book.route('/<int:people_id>/<isresident>/people_edit/', methods=['GET', 'POST'])
+@book.route('/<people_id>/<isresident>/people_edit/', methods=['GET', 'POST'])
 @permission_required(Permission.UPDATE_BOOK_INFORMATION)
 def people_edit(people_id, isresident):
     if isresident == 'True':
