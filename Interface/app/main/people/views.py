@@ -83,7 +83,7 @@ def people_edit(people_id, isresident):
         people.address = form.address.data
         db.session.add(people)
         db.session.commit()
-        flash(u'书籍资料已保存!', 'success')
+        flash(u'人员信息已保存!', 'success')
         return redirect(url_for('book.people_detail', people_id=people_id, isresident=isresident))
     form.id_type.data = people.id_type
     form.id_number.data = people.id_number
