@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 {% block mycontent %}
+<p style="text-align:center;">
+	<MARQUEE width=900 height=180 onmouseover=stop() onmouseout=start() scrollAmount=7 loop=infinite deplay="0">
+    <img src ="static/p1.jpg" /width ="300px" height="180px">
+	<img src ="static/p2.jpg" /width ="300px" height="180px">
+	<img src ="static/p3.jpg" /width ="300px" height="180px">
+	<img src ="static/p4.jpg" /width ="300px" height="180px">
+	<img src ="static/p5.jpg" /width ="300px" height="180px">
+	<img src ="static/p6.jpg" /width ="300px" height="180px">
+	<img src ="static/p7.jpg" /width ="300px" height="180px">
+	<img src ="static/p8.jpg" /width ="300px" height="180px">
+	</MARQUEE>	
+    <p>  </p>
+    <font size="6">
+	<p style="text-align:center">Welcome to XX community！</p>
+    </font>
+    
     <div class="row animated fadeInDown">
         <div class="col-sm-8 col-sm-offset-2">
             <form class="form form-horizontal" method="get" action="{{ url_for('book.people') }}">
