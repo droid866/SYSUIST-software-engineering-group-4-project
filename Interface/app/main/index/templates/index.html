@@ -161,7 +161,7 @@
                 <tbody>
                 {% for visitor in visitors %}
                     <tr class="animated fadeInLeft delay-{{ loop.index0 }}">
-                        <td><a href="{{ url_for('book.people_detail',people_id=visitor.id,isresident=False) }}">{{ visitor.name }}</a></td>
+                        <td><a href="{{ url_for('book.people_detail',people_id=visitor.id_number,isresident=False) }}">{{ visitor.name }}</a></td>
                         <td>{{ visitor.phone_number }}</td>
                     </tr>
                 {% endfor %}

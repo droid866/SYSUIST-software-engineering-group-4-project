@@ -150,7 +150,7 @@ def add_visitors():
     return render_template("people_add.html", form=form, title=u"添加外来人员信息")
 
 
-@book.route('/<int:people_id>/<isResident>/delete/')
+@book.route('/<people_id>/<isResident>/delete/')
 @permission_required(Permission.DELETE_BOOK)
 def people_delete(people_id, isResident):
     if isResident == 'True':
