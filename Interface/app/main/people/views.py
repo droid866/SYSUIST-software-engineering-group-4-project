@@ -69,19 +69,20 @@ def people_detail(people_id, isresident):
 def people_edit(people_id, isresident):
     if isresident == 'True':
         people = Residents.query.get_or_404(people_id)
-        face = Face.query.filter(Face.resident_id==people_id).all()[0]
     else:
         people = Visitors.query.get_or_404(people_id)
-        face = Face.query.filter(Face.visitors_id==people_id).all()[0]
+    face = Face.query.filter(Face.id_number==people_id).all()[0]
     form = EditPeopleForm()
     if form.validate_on_submit():
         people.name = form.name.data
         people.id_type = form.id_type.data
         people.id_number = form.id_number.data
+        face.id_number = form.id_number.data
         people.gender = form.gender.data
         people.phone_number = form.phone_number.data
         people.address = form.address.data
         db.session.add(people)
+        db.session.add(face)
         db.session.commit()
         flash(u'人员信息已保存!', 'success')
         return redirect(url_for('book.people_detail', people_id=people_id, isresident=isresident))
