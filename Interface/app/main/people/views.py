@@ -145,10 +145,9 @@ def add_visitors():
 def people_delete(people_id, isResident):
     if isResident == 'True':
         the_people = Residents.query.get_or_404(people_id)
-        face = Face.query.filter(Face.resident_id==people_id).all()[0]
     else:
         the_people = Visitors.query.get_or_404(people_id)
-        face = Face.query.filter(Face.visitors_id==people_id).all()[0]
+    face = Face.query.filter(Face.id_number==people_id).all()[0]
     db.session.delete(the_people)
     db.session.delete(face)
     db.session.commit()
