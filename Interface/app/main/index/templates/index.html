@@ -55,7 +55,6 @@
         </tbody>
     </table>
     
-
     <div class="row animated fadeInUp delay">
         <div class="col-md-9">
             <!-- 引入 echarts.js -->
@@ -73,7 +72,7 @@
             var option0 = {
                     title : {
                         text: '人员进入信息统计',
-                        subtext: '24小时更新'
+                        subtext: '当前24小时进入详情'
                     },
                     tooltip : {
                         trigger: 'axis'
@@ -96,7 +95,7 @@
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : ['0','4','8','12','16','20','24']
+                            data : [{{time[0].hour}}, {{time[1].hour}}, {{time[2].hour}},{{time[3].hour}}, {{time[4].hour}},{{time[5].hour}}],
                         }
                     ],
                     yAxis : [
@@ -111,7 +110,7 @@
                         {
                             name:'检测人数',
                             type:'line',
-                            data:[11, 5, 15, 13, 12, 13, 10],
+                            data:[{{ count[0] }},{{ count[1] }},{{ count[2]}}, {{count[3]}}, {{count[4]}}, {{count[5] }}],
                             markPoint : {
                                 data : [
                                     {type : 'max', name: '最大值'},
@@ -127,7 +126,7 @@
                     {
                         name:'体温异常人数',
                         type:'line',
-                        data:[1, 0, 2, 5, 3, 2, 0],
+                        data:[{{ count2[0] }},{{ count2[1] }},{{ count2[2]}}, {{count2[3]}}, {{count2[4]}}, {{count2[5] }}],
                         markPoint : {
                             data : [
                                 {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
